@@ -1,8 +1,8 @@
-import time as t
 import pandas as pd
-import numpy as np
-import matplotlib.pyplot as pl
-
+import cv2
+import matplotlib.pyplot as plt
+import tkinter as tk
+from tkinter import ttk
 pd.set_option('display.width', 1000)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -52,31 +52,30 @@ df = pd.DataFrame(data)
 print('Hello user, welcome to our program')
 print('This program primarily aims on eliminating the increased wait times at junctions and allow the easy flow of traffic')
 print('You will now be asked to view statistics in order to get a grasp.')
-print('1 View the Accidents Classified according to Type of Junction \n'
-      '2 View the Accidents Classified according to the type of control')
-AC = int(input('Enter the option number: '))
-if AC == 1:
-    print(SUG)
-    print('The graphs will now be shown')
-    pl.plot(tna[0:10], state[0:10])
-    pl.plot(stagJ[0:10], state[0:10])
-    pl.plot(roabJ[0:10], state[0:10])
-    pl.plot(perinj[0:10], state[0:10])
-    pl.plot(oth[0:10], state[0:10])
-    pl.grid()
-    pl.xlabel('Accidents')
-    pl.ylabel('Cities,Towns')
-    pl.legend(['Total No of Accidents', 'Staggered Junction', 'Roundabout Junction', 'Persons Injured', 'Others'], loc='upper right')
-    pl.show()
-elif AC == 2:
-    print(df)
+print()
+# print('1 View the Accidents Classified according to Type of Junction \n'
+#       '2 View the Accidents Classified according to the type of control')
+# AC = int(input('Enter the option number: '))
+# if AC == 1:
+#     print(SUG)
+#     print('The graphs will now be shown')
+#     plt.plot(tna[0:10], state[0:10])
+#     plt.plot(stagJ[0:10], state[0:10])
+#     plt.plot(roabJ[0:10], state[0:10])
+#     plt.plot(perinj[0:10], state[0:10])
+#     plt.plot(oth[0:10], state[0:10])
+#     plt.grid()
+#     plt.xlabel('Accidents')
+#     plt.ylabel('Cities,Towns')
+#     plt.legend(['Total No of Accidents', 'Staggered Junction', 'Roundabout Junction', 'Persons Injured', 'Others'], loc='upper right')
+#     plt.show()
+# elif AC == 2:
+#     print(df)
 
-import cv2
-
-# Replace 'your_video.mp4' with the path to your video file
-video_path = 'C:\\Users\\sturr\\OneDrive\\Desktop\\20231027_182946.mp4'
+video_path = '125.mp4'
 
 cap = cv2.VideoCapture(video_path)
+
 
 if not cap.isOpened():
     print("Error: Could not open video file.")
@@ -86,7 +85,6 @@ while True:
     ret, frame = cap.read()
     if not ret:
         break
-
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     fgmask = cv2.createBackgroundSubtractorMOG2().apply(gray)
     threshold = cv2.threshold(fgmask, 128, 255, cv2.THRESH_BINARY)[1]
@@ -95,8 +93,81 @@ while True:
     cv2.putText(frame, f'Traffic Density: {traffic_density}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv2.imshow("Traffic Density", frame)
 
-    if cv2.waitKey(30) & 0xFF == 27:
+    if cv2.waitKey(100) & 0xFF == 27:
         break
 
 cap.release()
 cv2.destroyAllWindows()
+
+import pandas as pd
+import cv2
+import matplotlib.pyplot as plt
+import tkinter as tk
+from tkinter import ttk
+from tkinter import colorchooser
+
+def change_color():
+    color = colorchooser.askcolor()
+    hexcolor=color[1]
+    root.config(bg=hexcolor)
+# Initialize a Tkinter window
+root = tk.Tk()
+root.title("Traffic Management System")
+root.geometry("1200x800")
+
+# Function to display statistics
+def display_statistics():
+    option = combo.get()
+    if option == "View Accidents by Junction Type":
+        text.delete('1.0', tk.END)
+        text.insert(tk.END, SUG.to_string())
+    elif option == "View Accidents by Control Type":
+        text.delete('1.0', tk.END)
+        text.insert(tk.END, df.to_string())
+
+# Function to display graphs
+def display_graphs():
+    plt.figure(figsize=(10, 6))
+    option = combo.get()
+    if option == "View Accidents by Junction Type":
+        for col in SUG.columns[2:]:
+            plt.barh(SUG['States/UTs'], SUG[col], label=col)
+    else:
+        for col in df.columns[2:]:
+            plt.barh(df['States/UTs'], df[col], label=col)
+
+    # Customize plot appearance here
+
+    plt.xlabel('Accidents')
+    plt.ylabel('Cities/Towns')
+    plt.legend(loc='upper right')
+    plt.title("Accidents Statistics")
+    plt.tight_layout()
+    plt.show()
+
+# Create a label
+label = ttk.Label(root, text="Choose an option:")
+label.pack(pady=10)
+
+# Create a combo box for user selection
+options = ["View Accidents by Junction Type", "View Accidents by Control Type"]
+combo = ttk.Combobox(root, values=options)
+combo.pack()
+
+# Create a button to display statistics
+statistics_button = ttk.Button(root, text="Display Statistics", command=display_statistics)
+statistics_button.pack(pady=10)
+
+# Create a button to display graphs
+graphs_button = ttk.Button(root, text="Display Graphs", command=display_graphs)
+graphs_button.pack()
+
+cc_button = ttk.Button(root,text="change background color ",command=change_color)
+cc_button.pack()
+# Create a text box to display statistics
+text = tk.Text(root, height=20, width=130)
+text.pack()
+
+root.mainloop()
+
+# Video processing code and other data-related code are commented out

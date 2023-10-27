@@ -73,7 +73,7 @@ elif AC == 2:
     print(df)
 
 import cv2
-video_path = 'C:\\Users\\Anand\\Downloads\\20231027_182946.mp4'
+video_path = '20231027_182946.mp4'
 
 cap = cv2.VideoCapture(video_path)
 

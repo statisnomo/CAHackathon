@@ -70,3 +70,22 @@ if AC == 1:
     pl.show()
 elif AC == 2:
     print(df)
+
+import cv2
+import numpy as np
+cap = cv2.VideoCapture(0)
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break
+    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    fgmask = cv2.createBackgroundSubtractorMOG2().apply(gray)
+    threshold = cv2.threshold(fgmask, 128, 255, cv2.THRESH_BINARY)[1]
+    contours, _ = cv2.findContours(threshold, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    traffic_density = len(contours)
+    cv2.putText(frame, f'Traffic Density: {traffic_density}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    cv2.imshow("Traffic Density", frame)
+    if cv2.waitKey(30) & 0xFF == 27:
+        break
+cap.release()
+cv2.destroyAllWindows()

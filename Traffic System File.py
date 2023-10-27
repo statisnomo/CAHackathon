@@ -1,7 +1,11 @@
 import time as t
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as pl
 
+pd.set_option('display.width', 1000)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
 serno = list(range(1, 51))
 state = ['Agra', 'Ahmedabad', 'Allahabad(Prayagraj)', 'Amritsar', 'Asansol Durgapur', 'Aurangabad', 'Bengaluru',
          'Bhopal', 'Chandigarh', 'Coimbatore', 'Chennai', 'Delhi', 'Dhanbad', 'Faridabad', 'Ghaziabad', 'Gwalior',
@@ -27,8 +31,6 @@ perinj = [3, 16, 66, 0, 1, 3, 398, 0, 20, 14, 709, 111, 55, 6, 23, 3, 52, 16, 5,
 SIGNAL = {'Serial No': serno, 'States/UTs': state, 'Staggered Junction': stagJ,
           'Round about Junction': roabJ, 'Others': oth, 'Total number of Accidents': tna, 'Persons Injured': perinj}
 SUG = pd.DataFrame(SIGNAL)
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
 
 data = {'S.No': serno, 'States/UTs': state,
         'Traffic Light Signal': [31, 82, 123, 0, 4, 0, 347, 0, 72, 139, 367, 497, 9, 6, 27, 0, 227, 16, 0, 179, 20, 2,
@@ -45,9 +47,6 @@ data = {'S.No': serno, 'States/UTs': state,
                             15, 3, 0, 7,
                             0, 7, 24, 31, 27, 10, 5, 15, 3, 0, 7, 0, 7, 24, 31, 27, 10, 5, 8, 27]}
 df = pd.DataFrame(data)
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
-
 
 
 print('Hello user, welcome to our program')
@@ -59,6 +58,15 @@ AC = int(input('Enter the option number: '))
 if AC == 1:
     print(SUG)
     print('The graphs will now be shown')
+    pl.plot(tna[0:10], state[0:10])
+    pl.plot(stagJ[0:10], state[0:10])
+    pl.plot(roabJ[0:10], state[0:10])
+    pl.plot(perinj[0:10], state[0:10])
+    pl.plot(oth[0:10], state[0:10])
+    pl.grid()
+    pl.xlabel('Accidents')
+    pl.ylabel('Cities,Towns')
+    pl.legend(['Total No of Accidents', 'Staggered Junction', 'Roundabout Junction', 'Persons Injured', 'Others'], loc='upper right')
+    pl.show()
 elif AC == 2:
     print(df)
-

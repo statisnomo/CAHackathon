@@ -1,8 +1,9 @@
 import time as t
 import pandas as pd
 import numpy as np
-import matplotlib.pyplot as pl
-
+import matplotlib.pyplot as plt
+import tkinter as tk
+from tkinter import ttk
 pd.set_option('display.width', 1000)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
@@ -58,23 +59,21 @@ AC = int(input('Enter the option number: '))
 if AC == 1:
     print(SUG)
     print('The graphs will now be shown')
-    pl.plot(tna[0:10], state[0:10])
-    pl.plot(stagJ[0:10], state[0:10])
-    pl.plot(roabJ[0:10], state[0:10])
-    pl.plot(perinj[0:10], state[0:10])
-    pl.plot(oth[0:10], state[0:10])
-    pl.grid()
-    pl.xlabel('Accidents')
-    pl.ylabel('Cities,Towns')
-    pl.legend(['Total No of Accidents', 'Staggered Junction', 'Roundabout Junction', 'Persons Injured', 'Others'], loc='upper right')
-    pl.show()
+    plt.plot(tna[0:10], state[0:10])
+    plt.plot(stagJ[0:10], state[0:10])
+    plt.plot(roabJ[0:10], state[0:10])
+    plt.plot(perinj[0:10], state[0:10])
+    plt.plot(oth[0:10], state[0:10])
+    plt.grid()
+    plt.xlabel('Accidents')
+    plt.ylabel('Cities,Towns')
+    plt.legend(['Total No of Accidents', 'Staggered Junction', 'Roundabout Junction', 'Persons Injured', 'Others'], loc='upper right')
+    plt.show()
 elif AC == 2:
     print(df)
 
 import cv2
-
-# Replace 'your_video.mp4' with the path to your video file
-video_path = 'C:\\Users\\sturr\\OneDrive\\Desktop\\20231027_182946.mp4'
+video_path = 'C:\\Users\\Anand\\Downloads\\20231027_182946.mp4'
 
 cap = cv2.VideoCapture(video_path)
 
@@ -100,3 +99,56 @@ while True:
 
 cap.release()
 cv2.destroyAllWindows()
+
+def display_statistics():
+    option = combo.get()
+    if option == "View Accidents by Junction Type":
+        text.delete('1.0', tk.END)
+        text.insert(tk.END, SUG.to_string())
+    elif option == "View Accidents by Control Type":
+        text.delete('1.0', tk.END)
+        text.insert(tk.END, df.to_string())
+
+# Create a function to display the graphs when the user clicks the button
+def display_graphs():
+    plt.figure(figsize=(10, 6))
+    option = combo.get()
+    if option == "View Accidents by Junction Type":
+        for col in SUG.columns[2:]:
+            plt.barh(SUG['States/UTs'], SUG[col], label=col)
+    else:
+        for col in df.columns[2:]:
+            plt.barh(df['States/UTs'], df[col], label=col)
+    plt.xlabel('Accidents')
+    plt.ylabel('Cities/Towns')
+    plt.legend(loc='upper right')
+    plt.title("Accidents Statistics")
+    plt.tight_layout()
+    plt.show()
+
+# Create the main window
+root = tk.Tk()
+root.title("Traffic Statistics Program")
+
+# Create a label
+label = ttk.Label(root, text="Choose an option:")
+label.pack(pady=10)
+
+# Create a combo box for user selection
+options = ["View Accidents by Junction Type", "View Accidents by Control Type"]
+combo = ttk.Combobox(root, values=options)
+combo.pack()
+
+# Create a button to display statistics
+statistics_button = ttk.Button(root, text="Display Statistics", command=display_statistics)
+statistics_button.pack(pady=10)
+
+# Create a button to display graphs
+graphs_button = ttk.Button(root, text="Display Graphs", command=display_graphs)
+graphs_button.pack()
+
+# Create a text box to display statistics
+text = tk.Text(root, height=15, width=80)
+text.pack()
+
+root.mainloop()

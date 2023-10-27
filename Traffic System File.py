@@ -72,12 +72,21 @@ elif AC == 2:
     print(df)
 
 import cv2
-import numpy as np
-cap = cv2.VideoCapture(0)
+
+# Replace 'your_video.mp4' with the path to your video file
+video_path = 'C:\\Users\\sturr\\OneDrive\\Desktop\\20231027_182946.mp4'
+
+cap = cv2.VideoCapture(video_path)
+
+if not cap.isOpened():
+    print("Error: Could not open video file.")
+    exit()
+
 while True:
     ret, frame = cap.read()
     if not ret:
         break
+
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
     fgmask = cv2.createBackgroundSubtractorMOG2().apply(gray)
     threshold = cv2.threshold(fgmask, 128, 255, cv2.THRESH_BINARY)[1]
@@ -85,7 +94,9 @@ while True:
     traffic_density = len(contours)
     cv2.putText(frame, f'Traffic Density: {traffic_density}', (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
     cv2.imshow("Traffic Density", frame)
+
     if cv2.waitKey(30) & 0xFF == 27:
         break
+
 cap.release()
 cv2.destroyAllWindows()

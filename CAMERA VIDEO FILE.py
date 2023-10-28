@@ -2,7 +2,7 @@ import cv2
 import time
 
 # DVCT1
-VIDP1 = 'C:\\Users\\sturr\\OneDrive\\Desktop\\DVCT1.mp4'
+VIDP1 = 'DVCT1.mp4'
 cap = cv2.VideoCapture(VIDP1)
 if not cap.isOpened():
     print("File Corrupt or Could not be opened")
@@ -37,7 +37,7 @@ print(f"Traffic Density for Video 1 North Side: {TDN}")
 
 
 # DVCT2
-video_path = 'C:\\Users\\sturr\\OneDrive\\Desktop\\DVCT2.mp4'
+video_path = 'DVCT2.mp4'
 cap = cv2.VideoCapture(video_path)
 if not cap.isOpened():
     print("Error: Could not open video file.")

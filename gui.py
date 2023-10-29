@@ -6,7 +6,6 @@ from tkinter import ttk
 from tkinter import colorchooser
 import pandas as pd
 
-
 serno = list(range(1, 51))
 state = ['Agra', 'Ahmedabad', 'Allahabad(Prayagraj)', 'Amritsar', 'Asansol Durgapur', 'Aurangabad', 'Bengaluru',
          'Bhopal', 'Chandigarh', 'Coimbatore', 'Chennai', 'Delhi', 'Dhanbad', 'Faridabad', 'Ghaziabad', 'Gwalior',
@@ -102,7 +101,7 @@ label.place(x=10,y=10)
 # Create a combo box for user selection
 options = ["View Accidents by Junction Type", "View Accidents by Control Type"]
 combo = ttk.Combobox(root, values=options,width=29)
-combo.place(x=150,y=10)
+combo.place(x=170,y=10)
 
 # Create a button to display statistics
 statistics_button = Button(root, text="Display Statistics", command=display_statistics,activebackground="red")

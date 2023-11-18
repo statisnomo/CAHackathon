@@ -1,3 +1,6 @@
+import pandas as pd
+import matplotlib.pyplot as pl
+datafile = pd.read_csv("Grade_12_full_data_csv_file.csv")
 import textwrap
 from requests import Session
 from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
@@ -61,11 +64,24 @@ ch4 = list(input("Enter various currencies(symbol eg:INR) to be converted to(sep
 for i in range(0, len(ch4)):
     print(currency_price(ch1, ch4[i]))
 '''
-no = input('How many currencies do you want to convert to? : ')
-lis10 = []
-if no.isdigit():
-    for i in range(0, int(no)):
-        lis10.append(input("Enter currency symbol (eg:INR): "))
-else:
-    print("INVALID INPUT ERROR")
-print(lis10)
+a = datafile['market_cap'][1:10]
+b = a/10**10
+
+pl.figure(facecolor='c', edgecolor='b')
+pl.plot(datafile['symbol'][1:10], b, color='g', marker='d', markeredgecolor='m')
+pl.ylim(10 ** 10, 2.5 * 10 ** 11)
+pl.grid()
+pl.xlabel('Cryptocurrencies')
+pl.ylabel('Market Cap')
+pl.xticks(rotation=45, ha='right')
+pl.title('Market Cap for various cryptocurrencies')
+pl.show()
+pl.plot(datafile['symbol'][0:10], datafile['ath_change_percentage'][0:10], color='g', marker='d',
+        markeredgecolor='m')
+pl.show()
+pl.plot(datafile['symbol'][0:10], datafile['market_cap_change_percentage_24h'][0:10], color='g', marker='d',
+        markeredgecolor='m')
+pl.show()
+pl.plot(datafile['symbol'][0:10], datafile['total_volume'][0:10]/10**10, color='g', marker='d',
+        markeredgecolor='m')
+pl.show()

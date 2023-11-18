@@ -58,11 +58,13 @@ import time
 # Replace with your CoinGecko API endpoint for cryptocurrency data
 url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
 
+
 def get_crypto_price():
     response = requests.get(url)
     data = response.json()
     price = data['bitcoin']['usd']
     return price
+
 
 while True:
     bitcoin_price = get_crypto_price()

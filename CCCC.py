@@ -13,21 +13,16 @@ print('Welcome to this program about Cryptocurrency')
 print('')
 
 
-def info_crypto(ch1):
+def info_crypto(ch5):
     url1 = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/info'
-    parameters1 = {'symbol': ch1}
-    headers1 = {
-        'Accepts': 'application/json',
-        'X-CMC_PRO_API_KEY': 'bde04074-f1e4-4a6f-888e-9783d15a400b',
-    }
-
+    parameters1 = {'symbol': ch5}
+    headers1 = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
     session1 = Session()
     session1.headers.update(headers1)
-
     response1 = session1.get(url1, params=parameters1)
     data_main = json.loads(response1.text)
-    print(data_main)
-    a = data_main['data'][ch1][0]['description']
+    # print(data_main)
+    a = data_main['data'][ch5][0]['description']
     d = textwrap.fill(a, width=150)
     print('')
     print(d)
@@ -53,7 +48,7 @@ def live_price_cmc(ch2):
     return price
 
 
-def currency_price(ch2,cur):
+def currency_price(ch2, cur):
     url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
     params = {'symbol': ch2, "convert": cur}
     headers = {"X-CMC_PRO_API_KEY": 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
@@ -61,6 +56,8 @@ def currency_price(ch2,cur):
     data = response.json()
     price = data["data"][ch2]['quote'][cur]['price']
     return price
+
+
 def graph_hist_price(ch2):
     url = "https://min-api.cryptocompare.com/data/v2/histoday"
     params = {"fsym": ch2, "tsym": "USD", 'limit': 58, 'aggregate': 30}
@@ -72,9 +69,9 @@ def graph_hist_price(ch2):
     c = len(b)
     lis = []
     date = []
-    for i in range(0, c):
-        lis.append(b[i]['high'])
-        a = b[i]['time']
+    for j in range(0, c):
+        lis.append(b[j]['high'])
+        a = b[j]['time']
         date.append(dt.utcfromtimestamp(a).date())
 
     ut = data['Data']['TimeFrom']
@@ -177,12 +174,11 @@ In conclusion, cryptocurrency represents a transformative force in the world of 
         elif ch3 == '2':
             pl.figure(facecolor='c', edgecolor='b')
             pl.plot(datafile['symbol'][1:10], datafile['market_cap'][1:10]/10**11, color='g', marker='d', markeredgecolor='m')
-            pl.ylim(10 ** 10, 2.5 * 10 ** 11)
             pl.grid()
             pl.xlabel('Cryptocurrencies')
             pl.ylabel('Market Cap')
             pl.xticks(rotation=45, ha='right')
-            pl.title('Market Cap for various cryptocurrencies')
+            pl.title('Market Cap for various cryptocurrencies(*10^10)')
             pl.show()
             pl.plot(datafile['symbol'][0:10], datafile['ath_change_percentage'][0:10], color='g', marker='d',
                     markeredgecolor='m')
@@ -190,7 +186,7 @@ In conclusion, cryptocurrency represents a transformative force in the world of 
             pl.plot(datafile['symbol'][0:10], datafile['market_cap_change_percentage_24h'][0:10], color='g', marker='d',
                     markeredgecolor='m')
             pl.show()
-            pl.plot(datafile['symbol'][0:10], datafile['total_volume'][0:10], color='g', marker='d',
+            pl.plot(datafile['symbol'][0:10], datafile['total_volume'][0:10]/10**10, color='g', marker='d',
                     markeredgecolor='m')
             pl.show()
         else:

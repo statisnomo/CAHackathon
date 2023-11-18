@@ -4,223 +4,11 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 import requests
 import time
-
 import pandas as pd
 import matplotlib.pyplot as pl
 from datetime import datetime as dt
+datafile = pd.read_csv("Grade_12_full_data_csv_file.csv")
 
-'''# url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
-# url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest'
-# parameters = {'id': 1, 'convert': 'USD'}
-url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/info'
-parameters = {'symbol': 'BTC,ETH'}
-
-headers = {
-    'Accepts': 'application/json',
-    'X-CMC_PRO_API_KEY': 'bde04074-f1e4-4a6f-888e-9783d15a400b',
-}
-
-session = Session()
-session.headers.update(headers)
-
-try:
-    response = session.get(url, params=parameters)
-    data = json.loads(response.text)
-    print(data)
-except (ConnectionError, Timeout, TooManyRedirects) as e:
-    print(e)
-a = data['data']
-b = a['BTC']
-print(b)
-c = b[0]
-d = c['description']
-d = textwrap.fill(d, width=150)
-print('')
-print(d)
-
-max_line_width = 150
-formatted_output = ""
-for key, value in data.items():
-    key_value_pair = f"{key}: {value}"
-    # Split the key-value pair into multiline text with a maximum line width
-    wrapped_text = textwrap.fill(key_value_pair, width=max_line_width)
-    formatted_output += wrapped_text + '\n'
-
-print(formatted_output)
-
-d = textwrap.fill(d, width=150)
-print('')
-print(d)
-
-#   a = data['data']    QUOTES STUFFFF
-#   b = a['1']
-#   print(b['id'])
-#   print(b['name'])
-#   print(b['symbol'])
-
-
-# CoinMarketCap API endpoint
-url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
-
-# Parameters for the request
-params = {
-    "id": "1",  # Bitcoin's ID on CoinMarketCap
-    "convert": "USD"  # Convert to USD
-}
-
-# Set your CoinMarketCap API key here
-api_key = "bde04074-f1e4-4a6f-888e-9783d15a400b"
-
-headers = {
-    "X-CMC_PRO_API_KEY": api_key
-}
-
-try:
-    response = requests.get(url, params=params, headers=headers)
-    data = response.json()
-    price_in_usd = data["data"]["1"]["quote"]["USD"]["price"]
-    print(f"The live price of BTC in USD is ${price_in_usd}")
-except requests.exceptions.RequestException as e:
-    print(f"Error: {e}")
-
-# CryptoCompare API endpoint
-url = "https://min-api.cryptocompare.com/data/price"
-
-# Parameters for the request
-params = {
-    "fsym": "BTC",  # From symbol (BTC)
-    "tsyms": "USD"  # To symbol (USD)
-}
-
-try:
-    response = requests.get(url, params=params)
-    data = response.json()
-    price_in_usd = data["USD"]
-    print(f"The live price of BTC in USD is ${price_in_usd}")
-except requests.exceptions.RequestException as e:
-    print(f"Error: {e}")
-
-# url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
-# url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest'
-# parameters = {'id': 1, 'convert': 'USD'}
-url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/info'
-parameters = {'symbol': 'BTC,ETH'}
-headers = {
-    'Accepts': 'application/json',
-    'X-CMC_PRO_API_KEY': 'bde04074-f1e4-4a6f-888e-9783d15a400b',
-}
-
-session = Session()
-session.headers.update(headers)
-
-try:
-    response = session.get(url, params=parameters)
-    data = json.loads(response.text)
-    print(data)
-except (ConnectionError, Timeout, TooManyRedirects) as e:
-    print(e)
-
-a = data['data']['BTC']
-print(a)
-c = a[0]
-d = c['description']
-d = textwrap.fill(d, width=150)
-print('')
-print(d)
-
-max_line_width = 150
-formatted_output = ""
-for key, value in data.items():
-    key_value_pair = f"{key}: {value}"
-    # Split the key-value pair into multiline text with a maximum line width
-    wrapped_text = textwrap.fill(key_value_pair, width=max_line_width)
-    formatted_output += wrapped_text + '\n'
-
-print(formatted_output)
-
-
-#   a = data['data']    QUOTES STUFFFF
-#   b = a['1']
-#   print(b['id'])
-#   print(b['name'])
-#   print(b['symbol'])
-
-
-def get_btc_price_cryptocompare():
-    url = "https://min-api.cryptocompare.com/data/price"
-    params = {
-        "fsym": "BTC",  # From symbol (BTC)
-        "tsyms": "USD"  # To symbol (USD)
-    }
-    response = requests.get(url, params=params)
-    data = response.json()
-    price_in_usd = data["USD"]
-    return price_in_usd
-
-
-btc_price = get_btc_price_cryptocompare()
-print(f"The live price of BTC in USD is ${btc_price}")
-
-
-def get_btc_price_cryptocompare():
-    url = "https://min-api.cryptocompare.com/data/price"
-    params = {
-        "fsym": "BTC",
-        "tsyms": "USD"
-    }
-    full_url = f"{url}?{'&'.join([f'{key}={value}' for key, value in params.items()])}"
-
-    with urllib.request.urlopen(full_url) as response:
-        data = json.loads(response.read().decode())
-        price_in_usd = data["USD"]
-        return price_in_usd
-
-
-btc_price = get_btc_price_cryptocompare()
-print(f"The live price of BTC in USD is ${btc_price}")
-
-
-def get_btc_price_coinmarketcap(apikey):
-    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
-    params = {
-        "id": "1",
-        "convert": "USD"
-    }
-    headers = {
-        "X-CMC_PRO_API_KEY": apikey
-    }
-    full_url = f"{url}?{'&'.join([f'{key}={value}' for key, value in params.items()])}"
-
-    req = urllib.request.Request(full_url, headers=headers)
-
-    with urllib.request.urlopen(req) as response:
-        data = json.loads(response.read().decode())
-        price_in_usd = data["data"]["1"]["quote"]["USD"]["price"]
-        return price_in_usd
-
-
-# Replace "YOUR_API_KEY" with your actual CoinMarketCap API key
-api_key = "bde04074-f1e4-4a6f-888e-9783d15a400b"
-btc_price = get_btc_price_coinmarketcap(api_key)
-print(f"The live price of BTC in USD is ${btc_price}")
-
-# Replace with your CoinGecko API endpoint for cryptocurrency data
-url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd'
-
-
-def get_crypto_price():
-    response = requests.get(url)
-    data = response.json()
-    price = data['bitcoin']['usd']
-    return price
-
-
-for i in range(10):
-    bitcoin_price = get_crypto_price()
-    print(f"Bitcoin Price (USD): ${bitcoin_price}")
-    time.sleep(3)  # Fetch and update price every minute
-    i += 1
-'''
 print('Welcome to this program about Cryptocurrency')
 print('')
 
@@ -265,6 +53,14 @@ def live_price_cmc(ch2):
     return price
 
 
+def currency_price(ch2,cur):
+    url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
+    params = {'symbol': ch2, "convert": cur}
+    headers = {"X-CMC_PRO_API_KEY": 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
+    response = requests.get(url, params=params, headers=headers)
+    data = response.json()
+    price = data["data"][ch2]['quote'][cur]['price']
+    return price
 def graph_hist_price(ch2):
     url = "https://min-api.cryptocompare.com/data/v2/histoday"
     params = {"fsym": ch2, "tsym": "USD", 'limit': 58, 'aggregate': 30}
@@ -302,12 +98,39 @@ def graph_hist_price(ch2):
     pl.show()
 
 
+def quantities(ch2):
+    url = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/quotes/latest'
+    parameters = {'symbol': ch2, 'convert': 'USD'}
+    headers = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
+
+    session = Session()
+    session.headers.update(headers)
+
+    try:
+        response = session.get(url, params=parameters)
+        data = json.loads(response.text)
+        b = data['data'][ch2][0]
+        print('Id:', b['id'])
+        print('Name:', b['name'])
+        print('Symbol:', b['symbol'])
+        c = b['quote']['USD']
+        print('Price:', c['price'])
+        print('24 hour volume:', c['volume_24h'])
+        print('Percent change in 1 hour:', c['percent_change_1h'])
+        print('Percent change in 7 days:', c['percent_change_7d'])
+        print('Percent change in 90 days:', c['percent_change_90d'])
+        print('Market cap:', c['market_cap'])
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        print(e)
+
+
 while True:
     print('Enter 1 to view a basic introduction to CRYPTOCURRENCY\n'
           'Enter 2 to view details about different cryptocurrencies\n'
-          'Enter 3 to view graphs about recent trends in Cryptocurrency\n'
+          'Enter 3 to view graphs about recent trends in cryptocurrency\n'
           'Enter 4 to view live prices of various cryptocurrencies\n'
-          'Enter 5 to view prices of cryptos in different currencies:')
+          'Enter 5 to view prices of cryptos in different currencies\n'
+          'Enter 6 to view different stats of a cryptocurrency:')
     ch = input()
     if ch == '1':
         print("CRYPTOCURRENCY!!!!!!!!!!!!!!!")
@@ -341,7 +164,6 @@ In conclusion, cryptocurrency represents a transformative force in the world of 
     elif ch == '2':
         print("Informations")
         info_crypto(input("Enter the symbol of the Crypto whose info is to be displayed:"))
-
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
@@ -353,9 +175,8 @@ In conclusion, cryptocurrency represents a transformative force in the world of 
         if ch3 == '1':
             graph_hist_price(input("Enter the symbol of the Crypto whose graph over the years is to be displayed:"))
         elif ch3 == '2':
-            datafile = pd.read_csv("Grade_12_full_data_csv_file.csv")
             pl.figure(facecolor='c', edgecolor='b')
-            pl.plot(datafile['symbol'][1:10], datafile['market_cap'][1:10], color='g', marker='d', markeredgecolor='m')
+            pl.plot(datafile['symbol'][1:10], datafile['market_cap'][1:10]/10**11, color='g', marker='d', markeredgecolor='m')
             pl.ylim(10 ** 10, 2.5 * 10 ** 11)
             pl.grid()
             pl.xlabel('Cryptocurrencies')
@@ -372,22 +193,53 @@ In conclusion, cryptocurrency represents a transformative force in the world of 
             pl.plot(datafile['symbol'][0:10], datafile['total_volume'][0:10], color='g', marker='d',
                     markeredgecolor='m')
             pl.show()
+        else:
+            print("INVALID INPUT ERROR")
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
 
     elif ch == '4':
         print('LIVEE PRICES!!!')
-        # live_prices(input("Enter the symbol of the Crypto whose live price is to be displayed:"))
+        live_prices(input("Enter the symbol of the Crypto whose live price is to be displayed:"))
 
-        var = input("Enter symbol of crypto:")
-        print("The live price of", var, " in USD is", live_price_cmc(var))
+        var = input("Enter symbol of crypto(in CAPS):")
+        print("The live price of", var, "in USD is", live_price_cmc(var))
+        print("")
+        cont = input("Enter 1 to go back to menu:")
+        if cont != '1':
+            break
     elif ch == '5':
-        print("We'll see")
+        print("Different currency prices")
+        ch1 = input("Enter symbol of crypto:")
+        no = input('How many currencies do you want to convert to? : ')
+        lis2, lis1 = [], []
+        if no.isdigit():
+            print('Enter currency symbol (eg:INR)')
+            for i in range(0, int(no)):
+                lis2.append(input(str(i+1) + ": "))
+        else:
+            print("INVALID INPUT ERROR")
+        for i in range(0, len(lis2)):
+            val = currency_price(ch1, lis2[i])
+            print('Price of', ch1, 'in', lis2[i], ': ', val)
+        cont = input("Enter 1 to go back to menu:")
+        if cont != '1':
+            break
+    elif ch == '6':
+        print('Different quantities of a crypto')
+        quantities(input("Enter symbol of crypto(In CAPS): "))
+        print('')
+        cont = input("Enter 1 to go back to menu:")
+        if cont != '1':
+            break
     else:
-        break
+        print('INVALID INPUT ERROR')
+        cont = input("Enter 1 to go back to menu:")
+        if cont != '1':
+            break
 print("L you're OUT")
 
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
-print(datafile[['id', 'symbol', 'name', 'current_price']])
+print(datafile[['id', 'name', 'current_price']])

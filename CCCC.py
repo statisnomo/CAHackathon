@@ -21,7 +21,7 @@ def info_crypto(ch5):
     session1.headers.update(headers1)
     response1 = session1.get(url1, params=parameters1)
     data_main = json.loads(response1.text)
-    # print(data_main)
+    print(data_main)
     a = data_main['data'][ch5][0]['description']
     d = textwrap.fill(a, width=150)
     print('')
@@ -127,7 +127,8 @@ while True:
           'Enter 3 to view graphs about recent trends in cryptocurrency\n'
           'Enter 4 to view live prices of various cryptocurrencies\n'
           'Enter 5 to view prices of cryptos in different currencies\n'
-          'Enter 6 to view different stats of a cryptocurrency:')
+          'Enter 6 to view different stats of a cryptocurrency\n'
+          'Enter 7 to edit database:')
     ch = input()
     if ch == '1':
         print("CRYPTOCURRENCY!!!!!!!!!!!!!!!")
@@ -229,6 +230,20 @@ In conclusion, cryptocurrency represents a transformative force in the world of 
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
+    elif ch == '7':
+        print("EDITING DATABASE - DEVESH")
+        
+       # D
+       # E
+       # V
+       # E
+       # S
+       # H
+        
+        
+    
+        
+        
     else:
         print('INVALID INPUT ERROR')
         cont = input("Enter 1 to go back to menu:")

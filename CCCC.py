@@ -18,44 +18,57 @@ def info_crypto(ch5):
     parameters1 = {'symbol': ch5}
     headers1 = {'Accepts': 'application/json', 'X-CMC_PRO_API_KEY': 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
     session1 = Session()
-    session1.headers.update(headers1)
-    response1 = session1.get(url1, params=parameters1)
-    data_main = json.loads(response1.text)
-    print(data_main)
-    a = data_main['data'][ch5][0]['description']
-    d = textwrap.fill(a, width=150)
-    print('')
-    print(d)
+    session1.headers.update(headers1)   
+    try:
+        response = session1.get(url1, params=parameters1)
+        data_main = json.loads(response.text)
+        print(data_main)
+        a = data_main['data'][ch5][0]['description']
+        d = textwrap.fill(a, width=150)
+        print('')
+        print(d) 
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        print("API ERROR:",e)
 
 
 def live_prices(ch2):
     url = "https://min-api.cryptocompare.com/data/price"
     params = {"fsym": ch2, "tsyms": "USD"}
-
-    response = requests.get(url, params=params)
-    data = response.json()
-    price_in_usd = data["USD"]
-    print("The live price of", ch2, "in USD is", price_in_usd)
-
+    try:
+        response = requests.get(url, params=params)
+        data = response.json()
+        price_in_usd = data["USD"]
+        print("The live price of", ch2, "in USD is", price_in_usd)
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        print("API ERROR:",e)
+ 
 
 def live_price_cmc(ch2):
     url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
     params = {'symbol': ch2, "convert": "USD"}
-    headers = {"X-CMC_PRO_API_KEY": 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
-    response = requests.get(url, params=params, headers=headers)
-    data = response.json()
-    price = data["data"][ch2]['quote']['USD']['price']
-    return price
+    
+    try:
+        headers = {"X-CMC_PRO_API_KEY": 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
+        response = requests.get(url, params=params, headers=headers)
+        data = response.json()
+        price = data["data"][ch2]['quote']['USD']['price']
+        return price
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        print("API ERROR:",e)
 
 
 def currency_price(ch2, cur):
     url = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
     params = {'symbol': ch2, "convert": cur}
-    headers = {"X-CMC_PRO_API_KEY": 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
-    response = requests.get(url, params=params, headers=headers)
-    data = response.json()
-    price = data["data"][ch2]['quote'][cur]['price']
-    return price
+    
+    try:
+        headers = {"X-CMC_PRO_API_KEY": 'bde04074-f1e4-4a6f-888e-9783d15a400b'}
+        response = requests.get(url, params=params, headers=headers)
+        data = response.json()
+        price = data["data"][ch2]['quote'][cur]['price']
+        return price
+    except (ConnectionError, Timeout, TooManyRedirects) as e:
+        print("API ERROR:",e)
 
 
 def graph_hist_price(ch2):
@@ -118,7 +131,7 @@ def quantities(ch2):
         print('Percent change in 90 days:', c['percent_change_90d'])
         print('Market cap:', c['market_cap'])
     except (ConnectionError, Timeout, TooManyRedirects) as e:
-        print(e)
+        print("API ERROR:",e)
 
 
 while True:

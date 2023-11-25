@@ -30,10 +30,10 @@ def menu1(ch1):
         response = session1.get(url1, params=parameters1)
         data_main = json.loads(response.text)
         print(data_main)
-        a = data_main['data'][ch1][0]['description']
-        d = textwrap.fill(a, width=150)
+        fdata = data_main['data'][ch1][0]['description']
+        fordata = textwrap.fill(fdata, width=150)
         print('')
-        print(d)
+        print(fordata)
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print("API ERROR:", e)
 
@@ -44,15 +44,15 @@ def menu2(ch5):
     response = requests.get(url, params=params)
     data = response.json()
 
-    a = data['Data']
-    b = a['Data']
-    c = len(b)
+    a1 = data['Data']
+    b1 = a1['Data']
+    c1 = len(b1)
     lis = []
     date = []
-    for j in range(0, c):
-        lis.append(b[j]['high'])
-        a = b[j]['time']
-        date.append(dt.utcfromtimestamp(a).date())
+    for j in range(0, c1):
+        lis.append(b1[j]['high'])
+        a1 = b1[j]['time']
+        date.append(dt.utcfromtimestamp(a1).date())
 
     ut = data['Data']['TimeFrom']
     ut1 = data['Data']['TimeTo']
@@ -189,17 +189,17 @@ def menu7(ch6):
     try:
         response = session.get(url, params=parameters)
         data = json.loads(response.text)
-        b = data['data'][ch6][0]
-        print('Id:', b['id'])
-        print('Name:', b['name'])
-        print('Symbol:', b['symbol'])
-        c = b['quote']['USD']
-        print('Price:', c['price'])
-        print('24 hour volume:', c['volume_24h'])
-        print('Percent change in 1 hour:', c['percent_change_1h'])
-        print('Percent change in 7 days:', c['percent_change_7d'])
-        print('Percent change in 90 days:', c['percent_change_90d'])
-        print('Market cap:', c['market_cap'])
+        b1 = data['data'][ch6][0]
+        print('Id:', b1['id'])
+        print('Name:', b1['name'])
+        print('Symbol:', b1['symbol'])
+        c1 = b1['quote']['USD']
+        print('Price:', c1['price'])
+        print('24 hour volume:', c1['volume_24h'])
+        print('Percent change in 1 hour:', c1['percent_change_1h'])
+        print('Percent change in 7 days:', c1['percent_change_7d'])
+        print('Percent change in 90 days:', c1['percent_change_90d'])
+        print('Market cap:', c1['market_cap'])
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print("API ERROR:", e)
 

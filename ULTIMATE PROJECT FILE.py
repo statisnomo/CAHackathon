@@ -9,6 +9,8 @@ import pandas as pd
 import matplotlib.pyplot as pl
 from datetime import datetime as dt
 datafile = pd.read_csv("Grade_12_full_data_csv_file.csv")
+pd.set_option('display.width', 1000)
+pd.set_option('display.float_format', lambda x: '%.5f' % x)
 pd.set_option('display.max_rows', None)
 pd.set_option('display.max_columns', None)
 datafile['symbol'] = datafile['symbol'].str.upper()
@@ -408,7 +410,9 @@ As cryptocurrencies continue to evolve, finding a balance between innovation and
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
-print("L you're OUT")
-datafile.to_csv("Grade_12_full_data_csv_file.csv")
+print('')
+print('Thank you for your time!\nHope you liked this program!')
+print('')
+datafile.to_csv("Grade_12_full_data_csv_file.csv", index=False)
 
-print(datafile[['id', 'name', 'current_price']])
+print(datafile)

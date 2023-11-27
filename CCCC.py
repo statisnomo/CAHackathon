@@ -8,54 +8,94 @@ import time
 import pandas as pd
 import matplotlib.pyplot as pl
 from datetime import datetime as dt
-
+pd.set_option('display.width', 1000)
+pd.set_option('display.float_format', lambda x: '%.5f' % x)
+pd.set_option('display.max_rows', None)
+pd.set_option('display.max_columns', None)
+datafile = pd.read_csv("Grade_12_full_data_csv_file.csv")
+datafile['symbol'] = datafile['symbol'].str.upper()
+print(datafile[['name', 'symbol']])
 # Initialize the Turtle screen
 screen = turtle.Screen()
-screen.title("Cryptofo")
-screen.bgcolor("#294D61")  # Set background color
+screen.setup(width=1000, height=1000, startx=-10, starty=10)
+screen.title("Cryptomania")
+screen.bgcolor("#43A5BE")  # Set background color
 text = turtle.Turtle()
 text.write("Welcome to the Cryptocurrency Analysis and Visualization Program!\n"
-           "In the dynamic landscape of digital finance, understanding and tracking cryptocurrency trends is crucial for both enthusiasts and investors.\n"
-           "This program aims to provide users with a comprehensive toolset to explore, analyze, and visualize various aspects of the cryptocurrency market.\n"
-           "From live price updates to historical trends, this program offers valuable insights into the ever-evolving world of digital assets.\n"
-           'This is a program that helps view and analyse trends in cryptocurrency with mesmerizing visual plots and statistics.',
-           align="center", font=("Comic Sans MS", 28, "normal"))  # for formal font use "Times New Roman"
+           "In the dynamic landscape of digital finance, understanding and\n"
+           "tracking cryptocurrency trends is crucial for both enthusiasts and investors.\n"
+           "This program aims to provide users with a comprehensive toolset to\n"
+           "explore, analyze, and visualize various aspects of the cryptocurrency market.\n"
+           "From live price updates to historical trends, this program offers\n"
+           "valuable insights into the ever-evolving world of digital assets.\n"
+           'This is a program that helps view and analyse trends in cryptocurrency\n'
+           'with mesmerizing visual plots and statistics.',
+           align="center", font=("Times New Roman", 20, "bold"))
 text.hideturtle()
-time.sleep(2.5)
+# time.sleep(5)
 text.clear()
 turtle.update()
 
 # Create a Turtle object
 text_turtle = turtle.Turtle()
-text_turtle.hideturtle()  # Hide the turtle icon
+text_turtle.hideturtle()
 text_turtle.penup()
-text_turtle.goto(0, 0)  # Set starting position
+text_turtle.goto(0, 0)
 
-# Function to display text on the turtle screen
-def display_text(text):
-    text_turtle.clear()  # Clear previous text
-    text_turtle.write(text, align="center", font=("Comic Sans MS", 28, "normal"))
 
-datafile = pd.read_csv("Grade_12_full_data_csv_file.csv") # REMEMBER TO CHANGE THE FILE LOCATION IN DIFFERENT DEVICES
-pd.set_option('display.width', 1000)
-pd.set_option('display.float_format', lambda x: '%.5f' % x)
-pd.set_option('display.max_rows', None)
-pd.set_option('display.max_columns', None)
-datafile['symbol'] = datafile['symbol'].str.upper()
-display_text(datafile[['name', 'symbol']])
+def display_text(text1):
+    text_turtle.clear()
+    text_turtle.write(text1, align="center", font=("Times New Roman", 28, "normal"))
 
-display_text("Welcome to the Cryptocurrency Analysis and Visualization Program!\n"
-      "In the dynamic landscape of digital finance, understanding and tracking cryptocurrency trends is crucial for both enthusiasts and investors.\n"
-      "This program aims to provide users with a comprehensive toolset to explore, analyze, and visualize various aspects of the cryptocurrency market.\n"
-      "From live price updates to historical trends, this program offers valuable insights into the ever-evolving world of digital assets.")
-display_text('This is a program that helps view and analyse trends in cryptocurrency with mesmerizing visual plots and statistics.')
 
-display_text('')
+def display_text1(text1):
+    text_turtle.penup()
+    text_turtle.goto(-100, -275)
+    text_turtle.clear()
+    text_turtle.write(text1, align="center", font=("Times New Roman", 18, "normal"))
+    text_turtle.penup()
+    text_turtle.goto(0, 0)
 
-#FUNCTIONS
 
-def get_input(prompt):
-    return turtle.textinput("User get_input", prompt)
+def display_text2(text1):
+    text_turtle.penup()
+    text_turtle.goto(-100, -200)
+    text_turtle.clear()
+    text_turtle.write(text1, align="center", font=("Times New Roman", 28, "normal"))
+    text_turtle.penup()
+    text_turtle.goto(0, 0)
+
+
+def display_text3(text1):
+    text_turtle.penup()
+    text_turtle.goto(-100, +200)
+    text_turtle.clear()
+    text_turtle.write(text1, align="center", font=("Times New Roman", 28, "normal"))
+    text_turtle.penup()
+    text_turtle.goto(0, 0)
+
+
+def display_text4(text1):
+    text_turtle.penup()
+    text_turtle.goto(-100, 0)
+    text_turtle.clear()
+    text_turtle.write(text1, align="center", font=("Times New Roman", 34, "bold"))
+    text_turtle.penup()
+    text_turtle.goto(0, 0)
+
+
+def display_text5(text1):
+    text_turtle.penup()
+    text_turtle.goto(-65, -100)
+    text_turtle.clear()
+    text_turtle.write(text1, align="center", font=("Times New Roman", 28, "bold"))
+    text_turtle.penup()
+    text_turtle.goto(0, 0)
+
+
+def input(prompt):
+    return turtle.textinput("Input Box", prompt)
+
 
 def menu1(ch1):
     url1 = 'https://pro-api.coinmarketcap.com/v2/cryptocurrency/info'
@@ -66,13 +106,11 @@ def menu1(ch1):
     try:
         response = session1.get(url1, params=parameters1)
         data_main = json.loads(response.text)
-        display_text(data_main)
         fdata = data_main['data'][ch1][0]['description']
-        fordata = textwrap.fill(fdata, width=150)
-        display_text('')
-        display_text(fordata)
-    except (ConnectionError, Timeout, TooManyRedirects) as e:
-        display_text("API ERROR: " + e)
+        fordata = textwrap.fill(fdata, width=50)
+        display_text2(fordata)
+    except (str(ConnectionError), str(Timeout), str(TooManyRedirects)) as e:
+        display_text3("API ERROR: " + e)
 
 
 def menu2(ch5):
@@ -94,12 +132,10 @@ def menu2(ch5):
     ut = data['Data']['TimeFrom']
     ut1 = data['Data']['TimeTo']
     dt1 = dt.utcfromtimestamp(ut)
-    display_text("Start Time: " + str(dt1))
     dt2 = dt.utcfromtimestamp(ut1)
-    display_text("End Time: " + str(dt2))
+    display_text("Start Time: " + str(dt1) + "\nEnd Time: " + str(dt2))
     d1 = dt1.date()
     d2 = dt2.date()
-    display_text('This is the list of items getting graphed:\n' + str(lis))
     ylabel = 'Price of ' + ch5 + '(in USD)'
     title = 'Price of ' + ch5 + ' from ' + str(d1) + ' to ' + str(d2)
     pl.figure(facecolor='c', edgecolor='b')
@@ -115,10 +151,12 @@ def menu2(ch5):
     pl.axhline(max_price, linestyle='--', color='r', label='Max Price')
     pl.axhline(current_price, linestyle='--', color='b', label='Current Price')
     pl.annotate(f'Max Price: {max_price:.2f} USD', xy=(date[middle_point], max_price),
-                xytext=(date[middle_point], max_price + (max_price/100)), color='r', ha='center', va='bottom', fontsize=10)
+                xytext=(date[middle_point], max_price + (max_price / 100)), color='r', ha='center', va='bottom',
+                fontsize=10)
 
     pl.annotate(f'Current Price: {current_price:.2f} USD', xy=(date[middle_point], current_price),
-                xytext=(date[-1], current_price + (current_price/10)), color='b', ha='center', va='center', fontsize=10)
+                xytext=(date[-1], current_price + (current_price / 10)), color='b', ha='center', va='center',
+                fontsize=10)
 
     pl.legend()
     pl.show()
@@ -185,6 +223,8 @@ def menu3(ch8):
         pl.xticks(rotation=45, ha='right')
         pl.title('All time low prices for various cryptocurrencies')
         pl.show()
+    else:
+        display_text3("INVALID INPUT ERROR")
 
 
 def menu4(ch2):
@@ -194,9 +234,9 @@ def menu4(ch2):
         response = requests.get(url, params=params)
         data = response.json()
         price_in_usd = data["USD"]
-        display_text("The live price of " + ch2 + " in USD is " + price_in_usd)
-    except (ConnectionError, Timeout, TooManyRedirects) as e:
-        display_text("API ERROR:" + e)
+        return price_in_usd
+    except (str(ConnectionError), str(Timeout), str(TooManyRedirects)) as e:
+        display_text3("API ERROR:" + e)
 
 
 def menu5(ch3):
@@ -209,8 +249,8 @@ def menu5(ch3):
         data = response.json()
         price = data["data"][ch3]['quote']['USD']['price']
         return price
-    except (ConnectionError, Timeout, TooManyRedirects) as e:
-        display_text("API ERROR: " + e)
+    except (str(ConnectionError), str(Timeout), str(TooManyRedirects)) as e:
+        display_text3("API ERROR: " + e)
 
 
 def menu6(ch4, cur):
@@ -223,8 +263,8 @@ def menu6(ch4, cur):
         data = response.json()
         price = data["data"][ch4]['quote'][cur]['price']
         return price
-    except (ConnectionError, Timeout, TooManyRedirects) as e:
-        display_text("API ERROR: " + e)
+    except (str(ConnectionError), str(Timeout), str(TooManyRedirects)) as e:
+        display_text3("API ERROR: " + e)
 
 
 def menu7(ch6):
@@ -239,210 +279,203 @@ def menu7(ch6):
         response = session.get(url, params=parameters)
         data = json.loads(response.text)
         b1 = data['data'][ch6][0]
-        display_text('Id: ' + b1['id'])
-        display_text('Name: ' + b1['name'])
-        display_text('Symbol: ' + b1['symbol'])
         c1 = b1['quote']['USD']
-        display_text('Price: ' + c1['price'])
-        display_text('24 hour volume: ' + c1['volume_24h'])
-        display_text('Percent change in 1 hour: ' + c1['percent_change_1h'])
-        display_text('Percent change in 7 days: ' + c1['percent_change_7d'])
-        display_text('Percent change in 90 days: ' + c1['percent_change_90d'])
-        display_text('Market cap: ' + c1['market_cap'])
-    except (ConnectionError, Timeout, TooManyRedirects) as e:
-        display_text("API ERROR: " + e)
+        display_text2('Id: ' + str(b1['id'])
+                      + '\nName: ' + b1['name']
+                      + '\nSymbol: ' + b1['symbol']
+                      + '\nPrice: ' + str(c1['price'])
+                      + '\n24 hour volume: ' + str(c1['volume_24h'])
+                      + '\nPercent change in 1 hour: ' + str(c1['percent_change_1h'])
+                      + '\nPercent change in 7 days: ' + str(c1['percent_change_7d'])
+                      + '\nPercent change in 90 days: ' + str(c1['percent_change_90d'])
+                      + '\nMarket cap: ' + str(c1['market_cap']))
+    except (str(ConnectionError), str(Timeout), str(TooManyRedirects)) as e:
+        display_text3("API ERROR: " + e)
 
-# Modify the existing display_text statements to use the display_text function
+
 display_text = display_text
 
 while True:
-    display_text("Select an option by entering the corresponding option.")
-    display_text('1. Basic introduction to CRYPTOCURRENCY\n'
-          '2. Details about different cryptocurrencies\n'
-          '3. View graphs about recent trends in cryptocurrency\n'
-          '4. View live prices of various cryptocurrencies\n'
-          '5. View prices of cryptos in different currencies\n'
-          '6. View different stats of a cryptocurrency\n'
-          '7. View database items and edit/modify\n'
-          "Enter your choice:")
-    ch = input(":")
+    display_text5("Select an option by entering the corresponding option.\n"
+                  '1. Basic introduction to CRYPTOCURRENCY\n'
+                  '2. Details about different cryptocurrencies\n'
+                  '3. View graphs about recent trends in cryptocurrency\n'
+                  '4. View live prices of various cryptocurrencies\n'
+                  '5. View prices of cryptos in different currencies\n'
+                  '6. View different stats of a cryptocurrency\n'
+                  '7. View database items and edit/modify\n'
+                  "Enter your choice:")
+    ch = input("Choose an option:")
     if ch == '1':
-        display_text("CRYPTOCURRENCY!!!!!!!!!!!!!!!")
-        display_text('''Cryptocurrency: A Revolution in Digital Finance
+        display_text1('''                     Cryptocurrency: A Revolution in Digital Finance
 
-                Cryptocurrency is a groundbreaking concept that has transformed the landscape of traditional finance.
-                Emerging in the wake of the 2008 financial crisis, it aimed to address issues of centralization, security, and accessibility.
-                This essay explores the fundamental aspects of cryptocurrency, its underlying technology, and its impact on the global economy.
-                Cryptocurrency is a form of digital or virtual currency that uses cryptography for security.
-                Unlike traditional currencies issued by governments and central banks, cryptocurrencies operate on decentralized networks based on blockchain technology.
-                The first and most well-known cryptocurrency, Bitcoin, was introduced in 2009 by an anonymous entity known as Satoshi Nakamoto.
-                Bitcoin laid the foundation for numerous other cryptocurrencies collectively known as altcoins.
+                Cryptocurrency is a groundbreaking concept that has transformed the landscape
+                of traditional finance. Emerging in the wake of the 2008 financial crisis,
+                it aimed to address issues of centralization, security, and accessibility.
+                Cryptocurrency is a form of digital or virtual currency that uses cryptography
+                for security. Unlike traditional currencies issued by governments and central banks,
+                cryptocurrencies operate on decentralized networks based on blockchain technology.
+                The first and most well-known cryptocurrency, Bitcoin, was introduced in 2009 by an 
+                anonymous entity known as Satoshi Nakamoto.
 
-                Blockchain Technology: At the core of most cryptocurrencies is blockchain, a distributed ledger that records all transactions across a network of computers.
-                Each block contains a list of transactions and a reference to the previous block, creating a secure and transparent chain.
-                The decentralized nature of blockchain eliminates the need for intermediaries, providing a more efficient and secure way to conduct transactions.
-                This technology has applications beyond cryptocurrencies, such as supply chain management, voting systems, and smart contracts.
+                Blockchain Technology: At the core of most cryptocurrencies is blockchain, a
+                distributed ledger that records all transactions across a network of computers.
+                Each block contains a list of transactions and a reference to the previous block,
+                creating a secure and transparent chain.
+                The decentralized nature of blockchain eliminates the need for intermediaries,
+                providing a more efficient and secure way to conduct transactions.
 
-                Cryptocurrencies serve various purposes beyond being a medium of exchange.
-                Some, like Bitcoin, primarily function as a store of value and a hedge against inflation.
-                Others, like Ethereum, enable the creation of decentralized applications (DApps) through smart contracts.
-                Stablecoins are designed to minimize price volatility by pegging their value to a fiat currency or other assets.
-                Understanding the diversity of cryptocurrencies is crucial for grasping their broader impact on the financial ecosystem.
-
-                Cryptocurrencies have disrupted traditional financial systems, offering new opportunities and challenges.
-                The decentralized nature of cryptocurrencies allows for financial inclusion, enabling people without access to traditional banking services to participate in the global economy.
-                However, regulatory challenges, concerns about illicit activities, and market volatility have prompted governments and 
-                financial institutions to adopt various approaches, ranging from acceptance to skepticism.
-
-                In conclusion, cryptocurrency represents a transformative force in the world of finance.
-                Its underlying blockchain technology has implications far beyond currency, influencing industries and sectors globally.
-                As cryptocurrencies continue to evolve, finding a balance between innovation and regulation will be crucial for their sustained growth and integration into mainstream finance.''')
+                In conclusion, cryptocurrency represents a transformative force in the world
+                of finance. Its underlying blockchain technology has implications far beyond
+                currency, influencing industries and sectors globally. As cryptocurrencies
+                continue to evolve, finding a balance between innovation and regulation will
+                be crucial for their sustained growth and integration into mainstream finance.''')
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
 
     elif ch == '2':
-        display_text("Informations")
         menu1(input("Enter the symbol of the Crypto whose info is to be displayed:"))
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
     elif ch == '3':
-        display_text("GRAPHHSSS(tbd)")
-        display_text('Enter 1 to view graphs of prices in the last 5 years of a cryptocurrency\n'
-                     'Enter 2 to view graphs of various other parameters of different cryptocurrencies')
-        var2 = input(':')
+        display_text('1. View graphs of prices in the last 5 years of a cryptocurrency\n'
+                     '2. View graphs of various other parameters\n'
+                     'of different cryptocurrencies')
+        var2 = input('Choose an option:')
         if var2 == '1':
-            menu2(input("Enter the symbol of the Crypto whose graph over the years is to be displayed:"))
+            menu2(input("Enter the symbol of the Crypto whose graph over the years is to be displayed(in CAPS):"))
         elif var2 == '2':
             while True:
-                display_text("To view graphs of any of these parameter enter corresponding number:\n"
-                             "1. Current Price\n"
-                             "2. Market Cap\n"
-                             "3. Total Volume\n"
-                             "4. Market Cap Change Percentage \n"
-                             "5. All time high prices\n"
-                             "6. All time low prices")
-                var3 = input(":")
+                display_text2("To view graphs of any of these parameter\n"
+                              "Enter corresponding number:\n"
+                              "1. Current Price\n"
+                              "2. Market Cap\n"
+                              "3. Total Volume\n"
+                              "4. Market Cap Change Percentage \n"
+                              "5. All time high prices\n"
+                              "6. All time low prices")
+                var3 = input("Choose an option:")
                 menu3(var3)
                 cont = input('Enter 1 to go back to graph menu:')
                 if cont != '1':
                     break
 
         else:
-            display_text("INVALID INPUT ERROR")
+            display_text3("INVALID INPUT ERROR")
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
 
     elif ch == '4':
-        display_text('LIVEE PRICES!!!')
+        display_text3('LIVE PRICES!')
         var = input("Enter symbol of crypto(in CAPS):")
-        menu4(var)
-        display_text("The live price of " + var + " in USD is " + menu5(var))
-        display_text("")
+        display_text("The live price of " + var + " in USD is " + str(menu4(var))
+                     + "\nThe live price of " + var + " in USD is " + str(menu5(var))
+                     + "\nThese are live prices from 2 sources")
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
     elif ch == '5':
-        display_text("Different currency prices")
-        var1 = input("Enter symbol of crypto:")
+        display_text3("Different currency prices")
+        var1 = input("Enter symbol of crypto(in CAPS):")
         no = input('How many currencies do you want to convert to? : ')
         lis2, lis1 = [], []
+        str1 = ""
         if no.isdigit():
-            display_text('Enter currency symbol (eg:INR)')
+            display_text3('Enter currency symbol (eg:INR)')
             for i in range(0, int(no)):
                 lis2.append(input(str(i + 1) + ": "))
         else:
-            display_text("INVALID INPUT ERROR")
+            display_text3("INVALID INPUT ERROR")
         for i in range(0, len(lis2)):
             val = menu6(var1, lis2[i])
-            display_text('Price of ' + var1 + ' in ' + lis2[i] + ' : ' + val)
+            str1 += 'Price of ' + var1 + ' in ' + lis2[i] + ' : ' + str(val) + '\n'
+        display_text2(str1)
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
     elif ch == '6':
-        display_text('Different quantities of a crypto')
+        display_text3('Different quantities of a crypto')
         menu7(input("Enter symbol of crypto(In CAPS): "))
-        display_text('')
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
     elif ch == '7':
-        display_text("EDITING DATABASE")
+        display_text3("EDITING DATABASE")
 
         while True:
             var4 = input("Enter symbol of Crypto from given list(in CAPS):")
             df = datafile[datafile['symbol'] == var4]
             if not df.empty:
-                display_text("Details for " + var4 + " :")
-                display_text('Cryptocurrency name: ' + df.loc[df.index[0] + 'name'])
-                display_text('Symbol: ' + df.loc[df.index[0] + 'symbol'])
-                display_text('Current price: ' + df.loc[df.index[0] + 'current_price'])
-                display_text('Market Cap: ' + df.loc[df.index[0] + 'market_cap'])
-                display_text('Total Volume: ' + df.loc[df.index[0] + 'total_volume'])
-                display_text(
-                    'Market Cap Change Percentage: ' + df.loc[df.index[0] + 'market_cap_change_percentage_24h'])
-                display_text('All Time High: ' + df.loc[df.index[0], 'ath'])
-                display_text('All Time Low: ' + df.loc[df.index[0], 'atl'])
-                display_text("\nIs the given data accurate?\nEnter 1 if inaccurate")
-                a = input(":")
+                display_text2("Details for " + str(var4) + " :"
+                              + '\nCryptocurrency name: ' + df.loc[df.index[0], 'name']
+                              + '\nSymbol: ' + df.loc[df.index[0], 'symbol']
+                              + '\nCurrent price: ' + str(df.loc[df.index[0], 'current_price'])
+                              + '\nMarket Cap: ' + str(df.loc[df.index[0], 'market_cap'])
+                              + '\nTotal Volume: ' + str(df.loc[df.index[0], 'total_volume'])
+                              + '\nMarket Cap Change Percentage: ' + str(df.loc[df.index[0], 'market_cap_change_percentage_24h'])
+                              + '\nAll Time High: ' + str(df.loc[df.index[0], 'ath'])
+                              + '\nAll Time Low: ' + str(df.loc[df.index[0], 'atl'])
+                              + "\n\nIs the given data accurate?\nEnter 1 if inaccurate")
+                a = input("Enter 1(else leave blank):")
                 if a == '1':
-                    display_text('\nIf you feel the data items are wrong, feel free to update them')
+                    display_text3('If you feel the data items are wrong,\n'
+                                  'feel free to update them')
                     d = input('Enter 1 to update the data:')
                     while True:
                         if d == '1':
-                            display_text('Which data is wrong?\n'
-                                         '1. Current Price\n'
-                                         '2. Market Cap\n'
-                                         '3. Total Volume\n'
-                                         '4. Market Cap Change Percentage\n'
-                                         '5. All TIme High\n'
-                                         '6. All Time Low')
-                            b = input(':')
+                            display_text2('Which data is wrong?\n'
+                                          '1. Current Price\n'
+                                          '2. Market Cap\n'
+                                          '3. Total Volume\n'
+                                          '4. Market Cap Change Percentage\n'
+                                          '5. All TIme High\n'
+                                          '6. All Time Low')
+                            b = input('Choose an option:')
                             if b == '1':
                                 c = input("Enter correct price of " + var4 + ": ")
                                 df.loc[df.index[0], 'current_price'] = c
                                 datafile.loc[df.index[0], 'current_price'] = c
-                                display_text(
+                                display_text3(
                                     "Updated price of " + var4 + ' is ' + df.loc[df.index[0], 'current_price'] + ' USD')
                             elif b == '2':
                                 c = input("Enter correct market cap of " + var4 + ": ")
                                 df.loc[df.index[0], 'market_cap'] = c
                                 datafile.loc[df.index[0], 'market_cap'] = c
-                                display_text("Updated market cap of " + var4 + ' is ' + df.loc[
+                                display_text3("Updated market cap of " + var4 + ' is ' + df.loc[
                                     df.index[0], 'market_cap'] + ' USD')
                             elif b == '3':
                                 c = input("Enter correct total volume of " + var4 + ": ")
                                 df.loc[df.index[0], 'total_volume'] = c
                                 datafile.loc[df.index[0], 'total_volume'] = c
-                                display_text("Updated total volume of " + var4 + ' is ' + df.loc[
+                                display_text3("Updated total volume of " + var4 + ' is ' + df.loc[
                                     df.index[0], 'total_volume'] + ' USD')
                             elif b == '4':
                                 c = input("Enter correct market cap change percentage of " + var4 + ": ")
                                 df.loc[df.index[0], 'market_cap_change_percentage_24h'] = c
                                 datafile.loc[df.index[0], 'market_cap_change_percentage_24h'] = c
-                                display_text("Updated market cap change percentage of " + var4 + ' is ' + df.loc[
+                                display_text3("Updated market cap change percentage of " + var4 + ' is ' + df.loc[
                                     df.index[0], 'market_cap_change_percentage_24h'])
                             elif b == '5':
                                 c = input("Enter correct all time high of " + var4 + ": ")
                                 df.loc[df.index[0], 'ath'] = c
                                 datafile.loc[df.index[0], 'ath'] = c
-                                display_text(
+                                display_text3(
                                     "Updated all time high of " + var4 + ' is ' + df.loc[df.index[0], 'ath'] + ' USD')
                             elif b == '6':
                                 c = input("Enter correct all time low of " + var4 + ": ")
                                 df.loc[df.index[0], 'atl'] = c
                                 datafile.loc[df.index[0], 'atl'] = c
-                                display_text(
+                                display_text3(
                                     "Updated all time low of" + var4 + 'is ' + df.loc[df.index[0], 'atl'] + ' USD')
 
                             cont = input("Enter 1 to update more data items(else press enter):")
                             if cont != '1':
                                 break
                         else:
-                            display_text("Thank you!")
-                            display_text("We will check and update the data ASAP")
+                            display_text3("Thank you! \nWe will check and update the data ASAP")
                             break
                     cont = input("Enter 1 to go back to database values(else press enter):")
                     if cont != '1':
@@ -453,9 +486,7 @@ while True:
                     if cont != '1':
                         break
             else:
-                display_text("INVALID SYMBOL ERROR")
-                display_text("No information found for " + var4)
-                display_text("Enter valid symbol")
+                display_text("INVALID SYMBOL ERROR\nNo information found for " + var4 + "\nEnter valid symbol")
                 cont = input("Enter 1 to go back to database values(else press enter):")
                 if cont != '1':
                     break
@@ -463,227 +494,13 @@ while True:
         if cont != '1':
             break
     else:
-        display_text('INVALID INPUT ERROR')
+        display_text3('INVALID INPUT ERROR')
         cont = input("Enter 1 to go back to menu:")
         if cont != '1':
             break
 
-display_text('')
-display_text('Thank you for your time!\nHope you liked this program!')
-display_text('')
+display_text4('Thank you for your time!\nHope you liked this program!')
 datafile.to_csv("Grade_12_full_data_csv_file.csv", index=False)
-
-display_text(datafile)
 
 # Close the Turtle graphics window when the user is done
 turtle.done()
-
-
-while True:
-    print("Select an option by entering the corresponding option.")
-    print('1. Basic introduction to CRYPTOCURRENCY\n'
-          '2. Details about different cryptocurrencies\n'
-          '3. View graphs about recent trends in cryptocurrency\n'
-          '4. View live prices of various cryptocurrencies\n'
-          '5. View prices of cryptos in different currencies\n'
-          '6. View different stats of a cryptocurrency\n'
-          '7. View database items and edit/modify')
-    ch = input(":")
-    if ch == '1':
-        print("CRYPTOCURRENCY!!!!!!!!!!!!!!!")
-        print('''Cryptocurrency: A Revolution in Digital Finance
-
-Cryptocurrency is a groundbreaking concept that has transformed the landscape of traditional finance.
-Emerging in the wake of the 2008 financial crisis, it aimed to address issues of centralization, security, and accessibility.
-This essay explores the fundamental aspects of cryptocurrency, its underlying technology, and its impact on the global economy.
-Cryptocurrency is a form of digital or virtual currency that uses cryptography for security.
-Unlike traditional currencies issued by governments and central banks, cryptocurrencies operate on decentralized networks based on blockchain technology.
-The first and most well-known cryptocurrency, Bitcoin, was introduced in 2009 by an anonymous entity known as Satoshi Nakamoto.
-Bitcoin laid the foundation for numerous other cryptocurrencies collectively known as altcoins.
-
-Blockchain Technology: At the core of most cryptocurrencies is blockchain, a distributed ledger that records all transactions across a network of computers.
-Each block contains a list of transactions and a reference to the previous block, creating a secure and transparent chain.
-The decentralized nature of blockchain eliminates the need for intermediaries, providing a more efficient and secure way to conduct transactions.
-This technology has applications beyond cryptocurrencies, such as supply chain management, voting systems, and smart contracts.
-
-Cryptocurrencies serve various purposes beyond being a medium of exchange.
-Some, like Bitcoin, primarily function as a store of value and a hedge against inflation.
-Others, like Ethereum, enable the creation of decentralized applications (DApps) through smart contracts.
-Stablecoins are designed to minimize price volatility by pegging their value to a fiat currency or other assets.
-Understanding the diversity of cryptocurrencies is crucial for grasping their broader impact on the financial ecosystem.
-
-Cryptocurrencies have disrupted traditional financial systems, offering new opportunities and challenges.
-The decentralized nature of cryptocurrencies allows for financial inclusion, enabling people without access to traditional banking services to participate in the global economy.
-However, regulatory challenges, concerns about illicit activities, and market volatility have prompted governments and 
-financial institutions to adopt various approaches, ranging from acceptance to skepticism.
-
-In conclusion, cryptocurrency represents a transformative force in the world of finance.
-Its underlying blockchain technology has implications far beyond currency, influencing industries and sectors globally.
-As cryptocurrencies continue to evolve, finding a balance between innovation and regulation will be crucial for their sustained growth and integration into mainstream finance.''')
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-
-    elif ch == '2':
-        print("Informations")
-        menu1(input("Enter the symbol of the Crypto whose info is to be displayed:"))
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-    elif ch == '3':
-        print("GRAPHHSSS(tbd)")
-        print('Enter 1 to view graphs of prices in the last 5 years of a cryptocurrency\n'
-              'Enter 2 to view graphs of various other parameters of different cryptocurrencies')
-        var2 = input(':')
-        if var2 == '1':
-            menu2(input("Enter the symbol of the Crypto whose graph over the years is to be displayed:"))
-        elif var2 == '2':
-            while True:
-                print("To view graphs of any of these parameter enter corresponding number:\n"
-                      "1. Current Price\n"
-                      "2. Market Cap\n"
-                      "3. Total Volume\n"
-                      "4. Market Cap Change Percentage \n"
-                      "5. All time high prices\n"
-                      "6. All time low prices")
-                var3 = input(":")
-                menu3(var3)
-                cont = input('Enter 1 to go back to graph menu:')
-                if cont != '1':
-                    break
-
-        else:
-            print("INVALID INPUT ERROR")
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-
-    elif ch == '4':
-        print('LIVEE PRICES!!!')
-        var = input("Enter symbol of crypto(in CAPS):")
-        menu4(var)
-        print("The live price of", var, "in USD is", menu5(var))
-        print("")
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-    elif ch == '5':
-        print("Different currency prices")
-        var1 = input("Enter symbol of crypto:")
-        no = input('How many currencies do you want to convert to? : ')
-        lis2, lis1 = [], []
-        if no.isdigit():
-            print('Enter currency symbol (eg:INR)')
-            for i in range(0, int(no)):
-                lis2.append(input(str(i+1) + ": "))
-        else:
-            print("INVALID INPUT ERROR")
-        for i in range(0, len(lis2)):
-            val = menu6(var1, lis2[i])
-            print('Price of', var1, 'in', lis2[i], ': ', val)
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-    elif ch == '6':
-        print('Different quantities of a crypto')
-        menu7(input("Enter symbol of crypto(In CAPS): "))
-        print('')
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-    elif ch == '7':
-        print("EDITING DATABASE")
-
-        while True:
-            var4 = input("Enter symbol of Crypto from given list(in CAPS):")
-            df = datafile[datafile['symbol'] == var4]
-            if not df.empty:
-                print("Details for", var4, ":")
-                print('Cryptocurrency name: ', df.loc[df.index[0], 'name'])
-                print('Symbol: ', df.loc[df.index[0], 'symbol'])
-                print('Current price: ', df.loc[df.index[0], 'current_price'])
-                print('Market Cap: ', df.loc[df.index[0], 'market_cap'])
-                print('Total Volume: ', df.loc[df.index[0], 'total_volume'])
-                print('Market Cap Change Percentage: ', df.loc[df.index[0], 'market_cap_change_percentage_24h'])
-                print('All Time High: ', df.loc[df.index[0], 'ath'])
-                print('All Time Low: ', df.loc[df.index[0], 'atl'])
-                print("\nIs the given data accurate?\nEnter 1 if inaccurate")
-                a = input(":")
-                if a == '1':
-                    print('\nIf you feel the data items are wrong, feel free to update them')
-                    d = input('Enter 1 to update the data:')
-                    while True:
-                        if d == '1':
-                            print('Which data is wrong?\n'
-                                  '1. Current Price\n'
-                                  '2. Market Cap\n'
-                                  '3. Total Volume\n'
-                                  '4. Market Cap Change Percentage\n'
-                                  '5. All TIme High\n'
-                                  '6. All Time Low')
-                            b = input(':')
-                            if b == '1':
-                                c = input("Enter correct price of " + var4 + ": ")
-                                df.loc[df.index[0], 'current_price'] = c
-                                datafile.loc[df.index[0], 'current_price'] = c
-                                print("Updated price of", var4, 'is', df.loc[df.index[0], 'current_price'], 'USD')
-                            elif b == '2':
-                                c = input("Enter correct market cap of " + var4 + ": ")
-                                df.loc[df.index[0], 'market_cap'] = c
-                                datafile.loc[df.index[0], 'market_cap'] = c
-                                print("Updated market cap of", var4, 'is', df.loc[df.index[0], 'market_cap'], 'USD')
-                            elif b == '3':
-                                c = input("Enter correct total volume of " + var4 + ": ")
-                                df.loc[df.index[0], 'total_volume'] = c
-                                datafile.loc[df.index[0], 'total_volume'] = c
-                                print("Updated total volume of", var4, 'is', df.loc[df.index[0], 'total_volume'], 'USD')
-                            elif b == '4':
-                                c = input("Enter correct market cap change percentage of " + var4 + ": ")
-                                df.loc[df.index[0], 'market_cap_change_percentage_24h'] = c
-                                datafile.loc[df.index[0], 'market_cap_change_percentage_24h'] = c
-                                print("Updated market cap change percentage of", var4, 'is', df.loc[df.index[0], 'market_cap_change_percentage_24h'])
-                            elif b == '5':
-                                c = input("Enter correct all time high of " + var4 + ": ")
-                                df.loc[df.index[0], 'ath'] = c
-                                datafile.loc[df.index[0], 'ath'] = c
-                                print("Updated all time high of", var4, 'is', df.loc[df.index[0], 'ath'], 'USD')
-                            elif b == '6':
-                                c = input("Enter correct all time low of " + var4 + ": ")
-                                df.loc[df.index[0], 'atl'] = c
-                                datafile.loc[df.index[0], 'atl'] = c
-                                print("Updated all time low of", var4, 'is', df.loc[df.index[0], 'atl'], 'USD')
-
-                            cont = input("Enter 1 to update more data items(else press enter):")
-                            if cont != '1':
-                                break
-                        else:
-                            print("Thank you!")
-                            print("We will check and update the data ASAP")
-                            break
-                    cont = input("Enter 1 to go back to database values(else press enter):")
-                    if cont != '1':
-                        break
-                else:
-                    print("Thank you!")
-                    cont = input("Enter 1 to go back to database values(else press enter):")
-                    if cont != '1':
-                        break
-            else:
-                print("INVALID SYMBOL ERROR")
-                print("No information found for", var4)
-                print("Enter valid symbol")
-                cont = input("Enter 1 to go back to database values(else press enter):")
-                if cont != '1':
-                    break
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-    else:
-        print('INVALID INPUT ERROR')
-        cont = input("Enter 1 to go back to menu:")
-        if cont != '1':
-            break
-print("L you're OUT")
-datafile.to_csv("Grade_12_full_data_csv_file.csv")
-
-print(datafile[['id', 'name', 'current_price']])

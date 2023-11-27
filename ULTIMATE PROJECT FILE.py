@@ -16,9 +16,12 @@ pd.set_option('display.max_columns', None)
 datafile['symbol'] = datafile['symbol'].str.upper()
 print(datafile[['name', 'symbol']])
 
-print('Welcome to this program about Cryptocurrency')
+print("Welcome to the Cryptocurrency Analysis and Visualization Program!\n"
+      "In the dynamic landscape of digital finance, understanding and tracking cryptocurrency trends is crucial for both enthusiasts and investors.\n"
+      "This program aims to provide users with a comprehensive toolset to explore, analyze, and visualize various aspects of the cryptocurrency market.\n"
+      "From live price updates to historical trends, this program offers valuable insights into the ever-evolving world of digital assets.")
 print('This is a program that helps view and analyse trends in cryptocurrency with mesmerizing visual plots and statistics.')
-print("Comment: Write a bigger intro")
+
 print('')
 
 
@@ -74,6 +77,18 @@ def menu2(ch5):
     pl.ylabel(ylabel)
     pl.xticks(rotation=45, ha='right')
     pl.title(title)
+    max_price = max(lis)
+    current_price = lis[-1]
+    middle_point = len(date) // 2
+    pl.axhline(max_price, linestyle='--', color='r', label='Max Price')
+    pl.axhline(current_price, linestyle='--', color='b', label='Current Price')
+    pl.annotate(f'Max Price: {max_price:.2f} USD', xy=(date[middle_point], max_price),
+                xytext=(date[middle_point], max_price + (max_price/100)), color='r', ha='center', va='bottom', fontsize=10)
+
+    pl.annotate(f'Current Price: {current_price:.2f} USD', xy=(date[middle_point], current_price),
+                xytext=(date[-1], current_price + (current_price/10)), color='b', ha='center', va='center', fontsize=10)
+
+    pl.legend()
     pl.show()
 
 
